@@ -1,0 +1,48 @@
+body{
+    background-color: #f2f2f2;
+}
+
+nav{
+    display: flex;
+    background-color: red;
+    
+    height: 10vh;
+    margin-left: -9px;
+    margin-top: -10px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+nav > a{
+    text-decoration: none;
+    color: black;
+    border: black solid 2px;
+    padding: 20px;
+    margin: 10px;
+}
+nav > a:hover{
+    background-color: black;
+    color: red;
+}
+h5{
+    margin: 1vh;
+    font-size: 15px;
+}
+h2{
+    
+    font-size: 30px;
+}
+h3{
+    margin: 1vh;
+    font-size: 25px;
+}
+article{
+    margin: 20px;
+    padding: 10px;
+}
+h1{
+    font-size: 50px;
+}
+.type{
+    font-size: 20px;
+}
