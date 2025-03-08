@@ -64,3 +64,9 @@ td, th{
     color: black;
     padding: 20px;
 }
+li > a:link{
+    color: red;
+}
+li > a:visited{
+    color: black;
+}
