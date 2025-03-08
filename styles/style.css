@@ -14,10 +14,7 @@ nav{
     padding: 20px;
 }
 nav > a{
-    text-decoration: none;
-    color: black;
     border: black solid 2px;
-    padding: 20px;
     margin: 10px;
 }
 nav > a:hover{
@@ -52,4 +49,18 @@ table, th, td {
 }
 td, th{
     padding: 10px;
+}
+#side{
+    color: black;
+    position: fixed;
+    right: 20px;
+    bottom: 10px;
+    background-color: #f2f2f2;
+    font-size: 20px;
+}
+
+#side-link, nav > a{
+    text-decoration: none;
+    color: black;
+    padding: 20px;
 }
