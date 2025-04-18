@@ -73,3 +73,8 @@ li > a:link, .interpage:link{
 li > a:visited, .interpage:visited{
     color: black;
 }
+nav > a.active {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
