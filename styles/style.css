@@ -5,10 +5,12 @@ body{
 nav{
     display: flex;
     background-color: red;
+    min-height: 60px;
+    flex-wrap: wrap;
     
-    height: 10vh;
-    margin-left: -9px;
-    margin-top: -10px;
+    margin: -7px;
+    padding: 0;
+    box-sizing: border-box;
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -16,6 +18,7 @@ nav{
 nav > a{
     border: black solid 2px;
     margin: 10px;
+    border-radius: 10px;
 }
 nav > a:hover{
     background-color: black;
@@ -36,10 +39,7 @@ h3{
 h4{
     font-size: 20px;
 }
-article{
-    margin: 20px;
-    padding: 10px;
-}
+
 h1{
     font-size: 50px;
 }
@@ -58,8 +58,10 @@ td, th{
     position: fixed;
     right: 20px;
     bottom: 10px;
-    background-color: #f2f2f2;
+    background-color: white;
     font-size: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 #side-link, nav > a{
@@ -77,4 +79,11 @@ nav > a.active {
     background-color: black;
     color: white;
     font-weight: bold;
+}
+article {
+    margin: 40px 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
