@@ -2,7 +2,7 @@
     <html>
         <head>
             <link rel="stylesheet" href="../styles/style.css">
-            <title>D&D Homebrew - Magic Items</title>
+            <title>D&D Homebrew - Spells</title>
         </head>
         <body>
             <nav class="col-12">
@@ -20,6 +20,7 @@
             </aside>
             <h1 id="top">Spells</h1>
             <p>Sorted by level then alphabetical order</p>
+            <button id="darkModeToggle">Toggle Dark Mode</button>
             <section>
                 <h2>Contents:</h2>
                 <ul>
@@ -336,5 +337,25 @@
                 </article>
                 <hr>
             </section>
+            <script>
+                const toggleButton = document.getElementById("darkModeToggle");
+            
+                // Apply saved mode on load
+                if (localStorage.getItem("darkMode") === "enabled") {
+                    document.body.classList.add("dark-mode");
+                }
+            
+                toggleButton.addEventListener("click", () => {
+                    document.body.classList.toggle("dark-mode");
+            
+                    // Save preference
+                    if (document.body.classList.contains("dark-mode")) {
+                        localStorage.setItem("darkMode", "enabled");
+                    } else {
+                        localStorage.setItem("darkMode", "disabled");
+                    }
+                });
+            </script>
+            
         </body>
     </html>

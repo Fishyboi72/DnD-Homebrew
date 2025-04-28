@@ -2,7 +2,7 @@
     <html>
         <head>
             <link rel="stylesheet" href="../styles/style.css">
-            <title>D&D Homebrew Classes and Subclasses</title>
+            <title>D&D Homebrew - Classes and Subclasses</title>
         </head>
         <body>
             <nav class="col-12">
@@ -19,7 +19,7 @@
                 <a id="side-link" href="#top">Top</a>
             </aside>
             <h1 id="top">Classes & Subclasses</h1>
-            <p>Sorted by class or subclass then alphabetical order</p>
+            <p>Sorted by class or subclass then alphabetical order</p><button id="darkModeToggle">Toggle Dark Mode</button>
             <section>
                 <h2>Contents:</h2>
                 <ul>
@@ -1018,5 +1018,25 @@
                 </article>
             </section>
             <hr>
+            <script>
+                const toggleButton = document.getElementById("darkModeToggle");
+            
+                // Apply saved mode on load
+                if (localStorage.getItem("darkMode") === "enabled") {
+                    document.body.classList.add("dark-mode");
+                }
+            
+                toggleButton.addEventListener("click", () => {
+                    document.body.classList.toggle("dark-mode");
+            
+                    // Save preference
+                    if (document.body.classList.contains("dark-mode")) {
+                        localStorage.setItem("darkMode", "enabled");
+                    } else {
+                        localStorage.setItem("darkMode", "disabled");
+                    }
+                });
+            </script>
+            
         </body>
     </html>

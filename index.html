@@ -2,7 +2,7 @@
     <html>
         <head>
             <link rel="stylesheet" href="./styles/style.css">
-            <title>D&D Homebrew</title>
+            <title>D&D Homebrew - Home</title>
         </head>
         <body>
             <nav class="col-12">
@@ -16,6 +16,7 @@
                 <a href="./pages/altRules.html">Rules & Alt Rules</a>
             </nav>
             <h1>D&D 5e Homebrew</h1>
+            <button id="darkModeToggle">Toggle Dark Mode</button>
             <p class="type">New</p>
             <ul>
                 <li><a href="./pages/feats.html#Boon_of_Upcasting_Mastery">Boon of Upcasting Mastery</a></li>
@@ -27,5 +28,24 @@
                 <li><a href="./pages/altRules.html#altCrit">Alternative Crits</a></li>
             </ul>
             <h6>*Ha ha whom I kidding, how would I know?</h6>
+            <script>
+                const toggleButton = document.getElementById("darkModeToggle");
+            
+                // Apply saved mode on load
+                if (localStorage.getItem("darkMode") === "enabled") {
+                    document.body.classList.add("dark-mode");
+                }
+            
+                toggleButton.addEventListener("click", () => {
+                    document.body.classList.toggle("dark-mode");
+            
+                    // Save preference
+                    if (document.body.classList.contains("dark-mode")) {
+                        localStorage.setItem("darkMode", "enabled");
+                    } else {
+                        localStorage.setItem("darkMode", "disabled");
+                    }
+                });
+            </script>            
         </body>
     </html>

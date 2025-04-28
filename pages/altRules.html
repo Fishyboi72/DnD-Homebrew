@@ -2,7 +2,7 @@
     <html>
         <head>
             <link rel="stylesheet" href="../styles/style.css">
-            <title>D&D Homebrew Monsters</title>
+            <title>D&D Homebrew - Rules and Alternative Rules</title>
         </head>
         <body>
             <nav class="col-12">
@@ -20,6 +20,7 @@
             </aside>
             <h1 id="top">Alternative Rules</h1>
             <p>Sorted by changes or additions then alphabetical order</p>
+            <button id="darkModeToggle">Toggle Dark Mode</button>
             <section>
                 <h2>Contents:</h2>
                 <ul>
@@ -129,7 +130,7 @@
                     <h2>Naval Combat</h2>
                     <h5>Major ruleset</h5>
                         <h4>INITIATIVE</h4>
-                        <p>To determine which ship goes first in combat, whichever side made the first move starts combat, if you are not sure, roll a d6. On a 1-3, the players go first, on a 4-6 the enemies go first. (If there are more than 2 ships, roll initiative like normal, using the creature with the highest initiative bonus’ bonus as the initiative bonus for the ship.)</p>
+                        <p>To determine which ship goes first in combat, whichever side made the first move starts combat, if you are not sure, roll a d6. On a 1-3, the players go first, on a 4-6 the enemies go first. (If there are more than 2 ships, roll initiative like normal, using the creature with the highest initiative bonus' bonus as the initiative bonus for the ship.)</p>
                         
                         <h4>ACTIONS IN COMBAT</h4>
                         <p>Each PC can either take a normal turn or a crew action on their turn. The ship gets additional crew actions based on how well manned it is.</p>
@@ -145,7 +146,7 @@
                         <p>If you deal NDMG to HP, multiply the rolled damage by 10, and if you deal normal damage to NHP, divide the damage by 10 and round down.</p>
                         
                         <h4>ATTACKING SHIPS</h4>
-                        <p>When attacking a ship, choose a specific part of the ship to target that is not the hull. Roll to hit the part of the ship you targeted and the hull. The lower roll is to hit the target you chose, while the higher roll is to hit the hull. If you hit the part you targeted, you don’t deal the damage to the hull.</p>
+                        <p>When attacking a ship, choose a specific part of the ship to target that is not the hull. Roll to hit the part of the ship you targeted and the hull. The lower roll is to hit the target you chose, while the higher roll is to hit the hull. If you hit the part you targeted, you don't deal the damage to the hull.</p>
                         <ul>
                             <li>If you have advantage on an attack, roll a third die and drop the lowest of the three.</li>
                             <li>If you have disadvantage, do the same, but drop the highest.</li>
@@ -153,7 +154,7 @@
                         </ul>
                         
                         <h5>Ramming:</h5>
-                        <p>To ram, the front of your ship (your ram) must be contacting the ship you want to ram. If you are ramming head to head, both ships take (your speed + target’s speed)d4 bludgeoning NDMG. If you are ramming head to side, both ships take (your speed)d4 bludgeoning NDMG. If you are ramming head to back, both ships take (your speed - target’s speed)d4 bludgeoning NDMG.</p>
+                        <p>To ram, the front of your ship (your ram) must be contacting the ship you want to ram. If you are ramming head to head, both ships take (your speed + target's speed)d4 bludgeoning NDMG. If you are ramming head to side, both ships take (your speed)d4 bludgeoning NDMG. If you are ramming head to back, both ships take (your speed - target's speed)d4 bludgeoning NDMG.</p>
                         
                         <h4>WEIGHT, SPEED, AND AGILITY</h4>
                         <p>For every 5 weight you have, reduce your speed by 2 and your agility by 1.</p>
@@ -328,5 +329,25 @@
                     </ul>
                 </article>
             </section>
+            <script>
+                const toggleButton = document.getElementById("darkModeToggle");
+            
+                // Apply saved mode on load
+                if (localStorage.getItem("darkMode") === "enabled") {
+                    document.body.classList.add("dark-mode");
+                }
+            
+                toggleButton.addEventListener("click", () => {
+                    document.body.classList.toggle("dark-mode");
+            
+                    // Save preference
+                    if (document.body.classList.contains("dark-mode")) {
+                        localStorage.setItem("darkMode", "enabled");
+                    } else {
+                        localStorage.setItem("darkMode", "disabled");
+                    }
+                });
+            </script>
+            
         </body>
     </html>
