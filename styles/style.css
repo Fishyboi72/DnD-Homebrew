@@ -123,3 +123,7 @@ body.dark-mode a:link {
 body.dark-mode a:visited {
     color: #999;
 }
+body.dark-mode nav > a.active {
+    color: red;
+    font-weight: bold;
+}
