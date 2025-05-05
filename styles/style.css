@@ -130,3 +130,6 @@ body.dark-mode nav > a.active {
     color: red;
     font-weight: bold;
 }
+body.dark-mode nav > a:visited{
+    color: #ff0000;
+}
