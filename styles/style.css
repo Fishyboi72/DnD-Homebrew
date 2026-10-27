@@ -15,12 +15,16 @@ nav{
     justify-content: center;
     padding: 20px;
 }
-nav > a{
+button{
+    background-color: white;
+}
+nav > a, button{
     border: black solid 2px;
     margin: 10px;
     border-radius: 10px;
 }
-nav > a:hover{
+nav > a:hover, button:hover{
+    cursor: pointer;
     background-color: black;
     color: red;
 }

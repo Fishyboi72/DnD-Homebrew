@@ -1,0 +1,22 @@
+{
+	"Latest": [
+		{
+			"name": "Latest 1",
+			"url": "url1"
+		},
+		{
+			"name": "Latest 2",
+			"url": "url2"
+		}
+	],
+	"Popular": [
+		{
+			"name": "Alternate Crits",
+			"url": "./pages/altRules.html#altCrit"
+		},
+		{
+			"name": "Animated Baby Doll",
+			"url": "./pages/races.html#Animated_Baby_Doll"
+		}
+	]
+}
