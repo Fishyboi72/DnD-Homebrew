@@ -21,82 +21,25 @@
             <h1>Feats</h1>
             <p>Sorted by type then alphabetical order</p>
             <button id="darkModeToggle">Toggle Dark Mode</button>
-            <section>
-                <h2>Contents:</h2>
-                <ul>
-                    <li class="type">General</li>
-                    <ul>
-                        <li><a href="#Axe_Thrower">Axe Thrower</a></li>
-                        <li><a href="#Feet">FEET!!!</a></li>
-                        <li><a href="#Perfect_Dodge">Perfect Dodge</a></li>
-                        <li><a href="#Pristine_Dodge">Pristine Dodge</a></li>
-                        <li><a href="#Unselfish_Caster">Unselfish Caster</a></li>
-                    </ul>
-                    <li class="type">Epic Boon</li>
-                    <ul>
-                        <li><a href="#Boon_of_Upcasting_Mastery">Boon of Upcasting Mastery</a></li>
-                    </ul>
-                </ul>
-            </section>
-            <hr>
-            <section>
-                <h2>General Feats</h2>
-                <article id="Axe_Thrower">
-                    <h3>Axe Thrower</h3>
-                    <h5>Prerequisite: Strength Score of 15 or Higher</h5>
-                    <ul>
-                        <li>While you are wielding an axe, it gains the thrown property with a range of 20/60.</li>
-                        <li>When you throw an axe, you can target two creatures within 10 feet of each other, making separate attack rolls for each target. The damage dealt by the attack is halved for each creature after the first. In addition, the weapon flies back to your hand immediately after the attack.</li>
-                    </ul>
-                </article>
+            <section id="entry-contents">
+                    <h2>Contents:</h2>
+                    <ul id="entry-contents-list"></ul>
+                </section>
                 <hr>
-                <article id="Feet">
-                    <h3>FEET!!!</h3>
-                    <h5>Prerequisite: have at least one foot</h5>
-                    <p>This is the worst feat you could possibly pick. All it does is double the amount of feet you have. The new feet can do nothing except wear shoes. They grow out of your shoulders. You can take this feat multiple times. Apply previous times of taking this feat's feet. The second time the feet come out of your knees. The third time they come out of your hips. The fourth time they come out of the backside of your head. The fifth time they come out of your elbows. Unless you have special armor for your new feet you cannot wear armor. The feet are so distracting that every extra foot you have your charisma goes down by 1. If your DM is feeling nice this also adds 5 ft to your movement speed or adds one to your dexterity score every time you take it.</p>
-                </article>
-                <hr>
-                <article id="Perfect_Dodge">
-                    <h3>Perfect Dodge</h3>
-                    <h5>Prerequisite: dex 16 or higher</h5>
-                    <p>When an enemy misses an attack on you by 8 - your proficiency or more, you can make a dexterity check. If your check is higher than the attack roll of the attacker you can use your reaction to make a number of attacks depending on what you use as shown below. An attack roll of a 1 automatically triggers this.<br>
-                        <br>
-                        Any martial melee weapon: 1<br>
-                        Any simple melee weapon: 2<br>
-                        An unarmed strike: 3<br>
-                        <br>
-                        If it is an improvised weapon, either the DM decides how many or it's always 1.<br>
-                        This does not work when you are attacked with or attack with a ranged spell, a spell that requires a saving throw,  or a ranged weapon.</p>
-                </article>
-                <hr>
-                <article id="Pristine_Dodge">
-                    <h3>Pristine Dodge</h3>
-                    <h5>Prerequisites: Perfect Dodge, dex 18 or higher</h5>
-                    <p>You can perfect dodge an opportunity attack or a perfect dodge attack.
-                        You also can do 1 more attack with your weapon.<br>
-                        Any pristine dodge successful against a perfect dodge attack causes the other attacks to miss.</p>
-                </article>
-                <hr>
-                <article id="Unselfish_Caster">
-                    <h3>Unselfish Caster</h3>
-                    <h5>Prerequisites: level 4+ and the ability to cast at least one spell with the range of self.</h5>
-                    <p><b>Ability Score Increase.</b> Increase your Intelligence, wisdom, or charisma score by 1, to a maximum of 20.<br>
-                        <b>Unselfish Casting.</b> Whenever you cast a spell with the range of self that has the casting time of an action or bonus action, you can cause a willing creature within 30 ft to instead gain the benefits. If the spell causes you/the target to do something (such as make an attack), the target must use a reaction to do said action. If it requires concentration, you still hold it.</p>
-                </article>
-                <hr>
-            </section>
-            <hr>
-            <section>
-                <h2>Epic Boons</h2>
-                <article id="Boon_of_Upcasting_Mastery">
-                    <h3>Boon of Upcasting Mastery</h3>
-                    <h5>Prerequisites: 17+ level in one of the following classes: bard, cleric, druid, sorcerer, warlock, wizard; 19+ level</h5>
-                    <p><b>Ability Score Increase.</b> Increase your Intelligence, wisdom, or charisma score by 1, to a maximum of 30.<br>
-                        <b>10th slot.</b> You gain a 10th level spell slot, which can be used for upcasting spells to that slot. For example, fireball does more damage at higher level slots; if you use your 10th level slot, it would do 15d6 fire damage.</p>
-                </article>
-                <hr>
-            </section>
-            <script src="../javascript/darkMode.js"></script>
+                <div id="entry-sections"></div>
+                <template id="entry-category-template">
+                    <section class="entry-category">
+                        <h2></h2>
+                        <div class="entry-list"></div>
+                    </section>
+                    <hr>
+                </template>
+                <template id="entry-template">
+                    <article><div class="entry-content"></div></article>
+                    <hr>
+                </template>
+                <script src="../javascript/renderGroupedEntries.js" data-content="../data/feats.json"></script>
+                <script src="../javascript/darkMode.js"></script>
             
         </body>
     </html>
