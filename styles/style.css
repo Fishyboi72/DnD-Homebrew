@@ -68,6 +68,131 @@ td, th{
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+#floating-contents {
+    position: fixed;
+    z-index: 10;
+    top: 16px;
+    right: 20px;
+    width: fit-content;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 150ms ease, transform 150ms ease, visibility 150ms;
+}
+
+#floating-contents.is-expanded {
+    width: min(320px, calc(100vw - 32px));
+    padding: 12px 20px;
+}
+
+#floating-contents.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#floating-contents[aria-hidden="true"] {
+    pointer-events: none;
+}
+
+.floating-contents-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+#floating-contents h2 {
+    margin-top: 0;
+}
+
+#floating-contents ul {
+    margin-bottom: 0;
+}
+
+.floating-contents-toggle,
+.floating-dark-mode-toggle,
+.static-contents-toggle,
+#darkModeToggle {
+    margin: 0;
+    padding: 8px 12px;
+    border-color: #b3261e;
+    border-radius: 6px;
+    background-color: #b3261e;
+    color: white;
+}
+
+.floating-contents-toggle::after,
+.static-contents-toggle::after {
+    content: "+";
+    margin-left: 8px;
+}
+
+.floating-contents-toggle[aria-expanded="true"]::after,
+.static-contents-toggle[aria-expanded="true"]::after {
+    content: "\2212";
+}
+
+.floating-contents-toggle:hover,
+.floating-dark-mode-toggle:hover,
+.static-contents-toggle:hover,
+#darkModeToggle:hover {
+    background-color: #8f1e18;
+    color: white;
+}
+
+.floating-contents-toggle:focus-visible,
+.floating-dark-mode-toggle:focus-visible,
+.static-contents-toggle:focus-visible,
+#darkModeToggle:focus-visible {
+    outline: 3px solid #111;
+    outline-offset: 2px;
+}
+
+#entry-contents li > a,
+#magic-item-contents li > a,
+#monster-contents li > a,
+#floating-contents li > a,
+#latest-list li > a,
+#popular-list li > a {
+    display: inline-block;
+    margin: 3px 4px 3px 0;
+    padding: 6px 10px;
+    border: 1px solid #b3261e;
+    border-radius: 6px;
+    background-color: white;
+    color: #b3261e;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+#entry-contents li > a:hover,
+#magic-item-contents li > a:hover,
+#monster-contents li > a:hover,
+#floating-contents li > a:hover,
+#latest-list li > a:hover,
+#popular-list li > a:hover {
+    background-color: #b3261e;
+    color: white;
+}
+
+#entry-contents li > a:focus-visible,
+#magic-item-contents li > a:focus-visible,
+#monster-contents li > a:focus-visible,
+#floating-contents li > a:focus-visible,
+#latest-list li > a:focus-visible,
+#popular-list li > a:focus-visible {
+    outline: 3px solid #111;
+    outline-offset: 2px;
+}
+
 #side-link, nav > a{
     text-decoration: none;
     color: black;
@@ -118,6 +243,41 @@ body.dark-mode article {
 body.dark-mode #side {
     background-color: #2a2a2a;
     
+}
+body.dark-mode #floating-contents {
+    background-color: #2a2a2a;
+    color: #f2f2f2;
+}
+body.dark-mode #entry-contents li > a,
+body.dark-mode #magic-item-contents li > a,
+body.dark-mode #monster-contents li > a,
+body.dark-mode #floating-contents li > a,
+body.dark-mode #latest-list li > a,
+body.dark-mode #popular-list li > a {
+    background-color: #333;
+    color: #ff7770;
+}
+body.dark-mode #entry-contents li > a:hover,
+body.dark-mode #magic-item-contents li > a:hover,
+body.dark-mode #monster-contents li > a:hover,
+body.dark-mode #floating-contents li > a:hover,
+body.dark-mode #latest-list li > a:hover,
+body.dark-mode #popular-list li > a:hover {
+    background-color: #b3261e;
+    color: white;
+}
+body.dark-mode #entry-contents li > a:focus-visible,
+body.dark-mode #magic-item-contents li > a:focus-visible,
+body.dark-mode #monster-contents li > a:focus-visible,
+body.dark-mode #floating-contents li > a:focus-visible,
+body.dark-mode #latest-list li > a:focus-visible,
+body.dark-mode #popular-list li > a:focus-visible {
+    outline-color: white;
+}
+body.dark-mode .floating-dark-mode-toggle:focus-visible,
+body.dark-mode .static-contents-toggle:focus-visible,
+body.dark-mode #darkModeToggle:focus-visible {
+    outline-color: white;
 }
 body.dark-mode #side-link{
     color: #f2f2f2;

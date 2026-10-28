@@ -12,6 +12,16 @@ async function renderGroupedEntries() {
 	const categoryTemplate = document.getElementById("entry-category-template");
 	const entryTemplate = document.getElementById("entry-template");
 
+	function getSubclassClass(item) {
+		const itemTemplate = document.createElement("template");
+		itemTemplate.innerHTML = item.html;
+		return (itemTemplate.content.querySelector("h5")?.textContent ?? "")
+			.replace(/\s+subclass$/i, "")
+			.trim();
+	}
+
+	const collator = new Intl.Collator(undefined, { sensitivity: "base" });
+
 	for (const group of data.groups) {
 		const categoryFragment = categoryTemplate.content.cloneNode(true);
 		const categorySection = categoryFragment.querySelector(".entry-category");
@@ -27,7 +37,26 @@ async function renderGroupedEntries() {
 		contentsCategory.append(contentsHeading, contentsList);
 		contents.append(contentsCategory);
 
-		for (const entry of data.items.filter((item) => item.group === group.id)) {
+		const entries = data.items.filter((item) => item.group === group.id);
+		entries.sort((a, b) => {
+			const classOrder = group.id === "subclasses"
+				? collator.compare(getSubclassClass(a), getSubclassClass(b))
+				: 0;
+			return classOrder || collator.compare(a.title, b.title);
+		});
+
+		let currentSubclassClass = "";
+		for (const entry of entries) {
+			if (group.id === "subclasses") {
+				const subclassClass = getSubclassClass(entry);
+				if (collator.compare(subclassClass, currentSubclassClass) !== 0) {
+					const classHeading = document.createElement("h3");
+					classHeading.textContent = subclassClass;
+					entryList.append(classHeading);
+					currentSubclassClass = subclassClass;
+				}
+			}
+
 			const contentsItem = document.createElement("li");
 			const contentsLink = document.createElement("a");
 			contentsLink.href = `#${entry.id}`;
@@ -44,6 +73,7 @@ async function renderGroupedEntries() {
 
 		sections.append(categoryFragment);
 	}
+
 }
 
 renderGroupedEntries().catch((error) => console.error(error));
