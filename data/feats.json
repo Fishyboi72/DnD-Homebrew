@@ -47,6 +47,12 @@
       "group": "epic-boon",
       "title": "Boon of Upcasting Mastery",
       "html": "<h3>Boon of Upcasting Mastery</h3>\n                    <h5>Prerequisites: 17+ level in one of the following classes: bard, cleric, druid, sorcerer, warlock, wizard; 19+ level</h5>\n                    <p><b>Ability Score Increase.</b> Increase your Intelligence, wisdom, or charisma score by 1, to a maximum of 30.<br>\n                        <b>10th slot.</b> You gain a 10th level spell slot, which can be used for upcasting spells to that slot. For example, fireball does more damage at higher level slots; if you use your 10th level slot, it would do 15d6 fire damage.</p>"
+    },
+    {
+      "id": "Effective_Smiting",
+      "group": "general",
+      "title": "Effective Smiting",
+      "html": "<h3>Effective Smiting</h3>\n<h5>Prerequisites: 4th Level, the ability to cast at least one spell with <em>smite</em> in its name, and have it prepared or know the <em>eldritch smite</em> invocation.</h5>\n<p><strong>Ability Score Increase</strong>. Increase your spellcasting ability score used for your <em>smite</em> spell by 1 (charisma for the invocation), to a maximum of 20. If it's already 20, increase your Intelligence, wisdom, or charisma score by 1, to a maximum of 20.</p>\n<p><strong>Effective Smite.</strong> Whenever you make an attack that qualifies for a <em>smite</em> spell you have prepared and miss, you may still cast your <em>smite</em> spell. It does one die less damage and the target gains a +2 to one saving throw from it.</p>"
     }
   ]
 }
