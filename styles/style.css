@@ -216,6 +216,31 @@ article {
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+
+.entry-content > h1 {
+    margin: 1vh;
+    font-size: 25px;
+}
+
+.entry-content > h2 {
+    margin: 1vh;
+    font-size: 20px;
+}
+
+.entry-subclasses {
+    margin: 24px 20px 36px 40px;
+    padding-left: 20px;
+    border-left: 4px solid #b3261e;
+}
+
+.entry-subclasses > h3 {
+    margin: 0 0 16px;
+}
+
+.entry-subclasses article {
+    margin: 20px 0;
+}
+
 body.dark-mode {
     background-color: #1a1a1a;
     color: #f2f2f2;
@@ -238,6 +263,10 @@ body.dark-mode nav > a:hover {
 body.dark-mode article {
     background-color: #2a2a2a;
     color: #f2f2f2;
+}
+
+body.dark-mode .entry-subclasses {
+    border-color: #ff7770;
 }
 
 body.dark-mode #side {

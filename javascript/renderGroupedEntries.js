@@ -11,8 +11,29 @@ async function renderGroupedEntries() {
 	const sections = document.getElementById("entry-sections");
 	const categoryTemplate = document.getElementById("entry-category-template");
 	const entryTemplate = document.getElementById("entry-template");
+	const classTitlesById = new Map(
+		data.items
+			.filter((item) => item.group === "classes")
+			.map((item) => [item.id, item.title])
+	);
+	const subclassesByClassId = new Map();
+	for (const item of data.items) {
+		if (item.group !== "subclasses" || !classTitlesById.has(item.subclassOf)) {
+			continue;
+		}
+
+		if (!subclassesByClassId.has(item.subclassOf)) {
+			subclassesByClassId.set(item.subclassOf, []);
+		}
+		subclassesByClassId.get(item.subclassOf).push(item);
+	}
 
 	function getSubclassClass(item) {
+		if (typeof item.subclassOf === "string" && item.subclassOf.trim()) {
+			const classId = item.subclassOf.trim();
+			return classTitlesById.get(classId) ?? classId.replaceAll("_", " ");
+		}
+
 		const itemTemplate = document.createElement("template");
 		itemTemplate.innerHTML = item.html;
 		return (itemTemplate.content.querySelector("h5")?.textContent ?? "")
@@ -21,6 +42,26 @@ async function renderGroupedEntries() {
 	}
 
 	const collator = new Intl.Collator(undefined, { sensitivity: "base" });
+
+	function appendEntry(entry, entryList, contentsList, articleClass = "") {
+		const contentsItem = document.createElement("li");
+		const contentsLink = document.createElement("a");
+		contentsLink.href = `#${entry.id}`;
+		contentsLink.textContent = entry.title;
+		contentsItem.append(contentsLink);
+		contentsList.append(contentsItem);
+
+		const entryFragment = entryTemplate.content.cloneNode(true);
+		const article = entryFragment.querySelector("article");
+		article.id = entry.id;
+		if (articleClass) {
+			article.classList.add(articleClass);
+		}
+		article.querySelector(".entry-content").innerHTML = entry.html;
+		entryList.append(entryFragment);
+
+		return contentsItem;
+	}
 
 	for (const group of data.groups) {
 		const categoryFragment = categoryTemplate.content.cloneNode(true);
@@ -37,7 +78,12 @@ async function renderGroupedEntries() {
 		contentsCategory.append(contentsHeading, contentsList);
 		contents.append(contentsCategory);
 
-		const entries = data.items.filter((item) => item.group === group.id);
+		const entries = data.items.filter((item) => {
+			if (item.group !== group.id) {
+				return false;
+			}
+			return group.id !== "subclasses" || !classTitlesById.has(item.subclassOf);
+		});
 		entries.sort((a, b) => {
 			const classOrder = group.id === "subclasses"
 				? collator.compare(getSubclassClass(a), getSubclassClass(b))
@@ -57,18 +103,27 @@ async function renderGroupedEntries() {
 				}
 			}
 
-			const contentsItem = document.createElement("li");
-			const contentsLink = document.createElement("a");
-			contentsLink.href = `#${entry.id}`;
-			contentsLink.textContent = entry.title;
-			contentsItem.append(contentsLink);
-			contentsList.append(contentsItem);
+			const contentsItem = appendEntry(entry, entryList, contentsList);
 
-			const entryFragment = entryTemplate.content.cloneNode(true);
-			const article = entryFragment.querySelector("article");
-			article.id = entry.id;
-			article.querySelector(".entry-content").innerHTML = entry.html;
-			entryList.append(entryFragment);
+			if (group.id === "classes") {
+				const subclasses = subclassesByClassId.get(entry.id) ?? [];
+				if (subclasses.length > 0) {
+					subclasses.sort((a, b) => collator.compare(a.title, b.title));
+					const subclassContentsList = document.createElement("ul");
+					contentsItem.append(subclassContentsList);
+
+					const subclassGroup = document.createElement("div");
+					subclassGroup.className = "entry-subclasses";
+					const subclassHeading = document.createElement("h3");
+					subclassHeading.textContent = `${entry.title} Subclasses`;
+					subclassGroup.append(subclassHeading);
+					entryList.append(subclassGroup);
+
+					for (const subclass of subclasses) {
+						appendEntry(subclass, subclassGroup, subclassContentsList, "subclass-entry");
+					}
+				}
+			}
 		}
 
 		sections.append(categoryFragment);
