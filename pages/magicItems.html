@@ -14,6 +14,17 @@
                 <a href="feats.html">Feats</a>
                 <a href="spells.html">Spells</a>
                 <a href="altRules.html">Rules & Alt Rules</a>
+                <form id="site-search" class="site-search" role="search">
+                    <button class="site-search-toggle" type="button" aria-label="Open search" aria-expanded="false" aria-controls="site-search-panel" disabled>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"></circle><path d="m15.5 15.5 5 5"></path></svg>
+                    </button>
+                    <div id="site-search-panel" class="site-search-panel" hidden>
+                        <label class="visually-hidden" for="site-search-input">Search by name or category</label>
+                        <input id="site-search-input" type="search" placeholder="Search names or categories..." autocomplete="off" aria-controls="site-search-results" aria-expanded="false" disabled>
+                        <div id="site-search-results" class="site-search-results" role="region" aria-label="Search results" hidden></div>
+                    </div>
+                    <p id="site-search-status" class="site-search-status visually-hidden" aria-live="polite"></p>
+                </form>
             </nav>
             <aside id="side">
                 <a id="side-link" href="#top">Top</a>
@@ -44,6 +55,8 @@
             </template>
             <script src="../javascript/getMagicItems.js"></script>
             <script src="../javascript/floatingContents.js"></script>
+            <script src="../javascript/floatingNavigation.js"></script>
             <script src="../javascript/darkMode.js"></script>        
+            <script src="../javascript/siteSearch.js" data-data-prefix="../data/" data-page-prefix="../"></script>
         </body>
     </html>

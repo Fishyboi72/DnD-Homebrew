@@ -16,17 +16,6 @@ async function renderGroupedEntries() {
 			.filter((item) => item.group === "classes")
 			.map((item) => [item.id, item.title])
 	);
-	const subclassesByClassId = new Map();
-	for (const item of data.items) {
-		if (item.group !== "subclasses" || !classTitlesById.has(item.subclassOf)) {
-			continue;
-		}
-
-		if (!subclassesByClassId.has(item.subclassOf)) {
-			subclassesByClassId.set(item.subclassOf, []);
-		}
-		subclassesByClassId.get(item.subclassOf).push(item);
-	}
 
 	function getSubclassClass(item) {
 		if (typeof item.subclassOf === "string" && item.subclassOf.trim()) {
@@ -43,46 +32,93 @@ async function renderGroupedEntries() {
 
 	const collator = new Intl.Collator(undefined, { sensitivity: "base" });
 
-	function appendEntry(entry, entryList, contentsList, articleClass = "") {
+	function appendContentsLink(entry, contentsList) {
 		const contentsItem = document.createElement("li");
 		const contentsLink = document.createElement("a");
 		contentsLink.href = `#${entry.id}`;
 		contentsLink.textContent = entry.title;
 		contentsItem.append(contentsLink);
 		contentsList.append(contentsItem);
+	}
+
+	function appendEntry(entry, entryList, contentsList) {
+		if (contentsList) {
+			appendContentsLink(entry, contentsList);
+		}
 
 		const entryFragment = entryTemplate.content.cloneNode(true);
 		const article = entryFragment.querySelector("article");
 		article.id = entry.id;
-		if (articleClass) {
-			article.classList.add(articleClass);
-		}
 		article.querySelector(".entry-content").innerHTML = entry.html;
 		entryList.append(entryFragment);
-
-		return contentsItem;
 	}
 
-	for (const group of data.groups) {
+	function appendContentsSubcategory(title, parentList, id) {
+		const category = document.createElement("li");
+		const categoryToggle = document.createElement("button");
+		const categoryList = document.createElement("ul");
+
+		categoryList.id = id;
+		categoryList.classList.add("contents-category-list");
+		categoryList.hidden = true;
+		categoryToggle.className = "contents-subcategory-toggle";
+		categoryToggle.type = "button";
+		categoryToggle.textContent = title;
+		categoryToggle.setAttribute("aria-expanded", "false");
+		categoryToggle.setAttribute("aria-controls", categoryList.id);
+		category.append(categoryToggle, categoryList);
+		parentList.append(category);
+		return categoryList;
+	}
+
+	for (const [categoryIndex, group] of data.groups.entries()) {
 		const categoryFragment = categoryTemplate.content.cloneNode(true);
 		const categorySection = categoryFragment.querySelector(".entry-category");
 		const categoryHeading = categorySection.querySelector("h2");
 		const entryList = categorySection.querySelector(".entry-list");
 		const contentsCategory = document.createElement("li");
-		const contentsHeading = document.createElement("span");
 		const contentsList = document.createElement("ul");
 
 		categoryHeading.textContent = group.heading;
-		contentsHeading.className = "type";
-		contentsHeading.textContent = group.name;
-		contentsCategory.append(contentsHeading, contentsList);
+
+		contentsList.hidden = true;
+		contentsList.id = `entry-contents-category-${categoryIndex}`;
+		contentsList.classList.add("contents-category-list");
+		const contentsToggle = document.createElement("button");
+		contentsToggle.className = "contents-category-toggle";
+		contentsToggle.type = "button";
+		contentsToggle.textContent = group.name;
+		contentsToggle.setAttribute("aria-expanded", "false");
+		contentsToggle.setAttribute("aria-controls", contentsList.id);
+
+		contentsCategory.append(contentsToggle, contentsList);
 		contents.append(contentsCategory);
 
-		const entries = data.items.filter((item) => {
-			if (item.group !== group.id) {
-				return false;
+		if (group.id === "subclasses") {
+			const subclassesByClass = new Map();
+			for (const subclass of data.items.filter((item) => item.group === "subclasses")) {
+				const className = getSubclassClass(subclass) || "Other Subclasses";
+				if (!subclassesByClass.has(className)) {
+					subclassesByClass.set(className, []);
+				}
+				subclassesByClass.get(className).push(subclass);
 			}
-			return group.id !== "subclasses" || !classTitlesById.has(item.subclassOf);
+
+			[...subclassesByClass.entries()]
+				.sort(([a], [b]) => collator.compare(a, b))
+				.forEach(([className, subclasses], subcategoryIndex) => {
+					const subclassList = appendContentsSubcategory(
+						className,
+						contentsList,
+						`entry-contents-subcategory-${categoryIndex}-${subcategoryIndex}`
+					);
+					subclasses.sort((a, b) => collator.compare(a.title, b.title));
+					subclasses.forEach((subclass) => appendContentsLink(subclass, subclassList));
+				});
+		}
+
+		const entries = data.items.filter((item) => {
+			return item.group === group.id;
 		});
 		entries.sort((a, b) => {
 			const classOrder = group.id === "subclasses"
@@ -103,27 +139,10 @@ async function renderGroupedEntries() {
 				}
 			}
 
-			const contentsItem = appendEntry(entry, entryList, contentsList);
-
-			if (group.id === "classes") {
-				const subclasses = subclassesByClassId.get(entry.id) ?? [];
-				if (subclasses.length > 0) {
-					subclasses.sort((a, b) => collator.compare(a.title, b.title));
-					const subclassContentsList = document.createElement("ul");
-					contentsItem.append(subclassContentsList);
-
-					const subclassGroup = document.createElement("div");
-					subclassGroup.className = "entry-subclasses";
-					const subclassHeading = document.createElement("h3");
-					subclassHeading.textContent = `${entry.title} Subclasses`;
-					subclassGroup.append(subclassHeading);
-					entryList.append(subclassGroup);
-
-					for (const subclass of subclasses) {
-						appendEntry(subclass, subclassGroup, subclassContentsList, "subclass-entry");
-					}
-				}
-			}
+			const entryContentsList = group.id === "subclasses"
+				? null
+				: contentsList;
+			appendEntry(entry, entryList, entryContentsList);
 		}
 
 		sections.append(categoryFragment);

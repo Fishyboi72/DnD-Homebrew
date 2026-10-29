@@ -2,24 +2,24 @@ const contents = document.querySelector(
 	"#entry-contents, #magic-item-contents, #monster-contents"
 );
 
+document.addEventListener("click", (event) => {
+	const targetElement = event.target instanceof Element ? event.target : null;
+	const contentsToggle = targetElement?.closest(
+		".contents-category-toggle, .contents-subcategory-toggle"
+	);
+	if (contentsToggle) {
+		const contentsList = contentsToggle.parentElement.querySelector(":scope > ul");
+		if (contentsList) {
+			const isExpanded = contentsToggle.getAttribute("aria-expanded") !== "true";
+			contentsToggle.setAttribute("aria-expanded", String(isExpanded));
+			contentsList.hidden = !isExpanded;
+		}
+		return;
+	}
+});
+
 if (contents) {
 	const staticContentsHeading = contents.querySelector(":scope > h2");
-	const staticContentsList = contents.querySelector(":scope > ul");
-	if (staticContentsHeading && staticContentsList) {
-		const staticContentsToggle = document.createElement("button");
-		staticContentsToggle.className = "static-contents-toggle";
-		staticContentsToggle.type = "button";
-		staticContentsToggle.textContent = "Contents";
-		staticContentsToggle.setAttribute("aria-expanded", "true");
-		staticContentsToggle.setAttribute("aria-controls", staticContentsList.id);
-		staticContentsHeading.replaceChildren(staticContentsToggle);
-
-		staticContentsToggle.addEventListener("click", () => {
-			const isExpanded = staticContentsToggle.getAttribute("aria-expanded") !== "true";
-			staticContentsToggle.setAttribute("aria-expanded", String(isExpanded));
-			staticContentsList.hidden = !isExpanded;
-		});
-	}
 
 	const floatingContents = document.createElement("aside");
 	floatingContents.id = "floating-contents";
@@ -41,9 +41,8 @@ if (contents) {
 	floatingContentsContent.removeAttribute("id");
 	floatingContentsBody.append(floatingContentsContent);
 	const floatingDarkModeToggle = document.createElement("button");
-	floatingDarkModeToggle.className = "floating-dark-mode-toggle";
+	floatingDarkModeToggle.className = "dark-mode-toggle floating-dark-mode-toggle";
 	floatingDarkModeToggle.type = "button";
-	floatingDarkModeToggle.textContent = "Toggle Dark Mode";
 	floatingDarkModeToggle.addEventListener("click", () => {
 		document.getElementById("darkModeToggle").click();
 	});
@@ -67,10 +66,22 @@ if (contents) {
 		floatingContentsContent.querySelectorAll("[id]").forEach((element) => {
 			element.removeAttribute("id");
 		});
+		floatingContentsContent
+			.querySelectorAll(".contents-category-toggle, .contents-subcategory-toggle")
+			.forEach((toggle, index) => {
+				const categoryList = toggle.parentElement.querySelector(":scope > ul");
+				if (categoryList) {
+					categoryList.id = `floating-contents-category-${index}`;
+					toggle.setAttribute("aria-controls", categoryList.id);
+				}
+			});
 	};
 
 	const updateFloatingContents = () => {
-		const isPastContents = contents.getBoundingClientRect().bottom <= 0;
+		const contentsVisibilityAnchor = contents.previousElementSibling;
+		const isPastContents = contentsVisibilityAnchor
+			? contentsVisibilityAnchor.getBoundingClientRect().bottom <= 0
+			: window.scrollY > 0;
 		floatingContents.classList.toggle("is-visible", isPastContents);
 		floatingContents.setAttribute("aria-hidden", String(!isPastContents));
 	};

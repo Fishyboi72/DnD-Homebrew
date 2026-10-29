@@ -18,19 +18,27 @@ async function loadMagicItems() {
 		categories.get(item.type).push(item);
 	}
 
-	for (const [category, categoryItems] of categories) {
+	for (const [categoryIndex, [category, categoryItems]] of [...categories].entries()) {
 		const categoryFragment = categoryTemplate.content.cloneNode(true);
 		const categorySection = categoryFragment.querySelector(".magic-item-category");
 		const categoryHeading = categorySection.querySelector("h2");
 		const itemList = categorySection.querySelector(".magic-item-list");
 		const contentsCategory = document.createElement("li");
-		const contentsHeading = document.createElement("span");
 		const contentsList = document.createElement("ul");
 
 		categoryHeading.textContent = category;
-		contentsHeading.className = "type";
-		contentsHeading.textContent = category;
-		contentsCategory.append(contentsHeading, contentsList);
+
+		contentsList.hidden = true;
+		contentsList.id = `magic-item-contents-category-${categoryIndex}`;
+		contentsList.classList.add("contents-category-list");
+		const contentsToggle = document.createElement("button");
+		contentsToggle.className = "contents-category-toggle";
+		contentsToggle.type = "button";
+		contentsToggle.textContent = category;
+		contentsToggle.setAttribute("aria-expanded", "false");
+		contentsToggle.setAttribute("aria-controls", contentsList.id);
+
+		contentsCategory.append(contentsToggle, contentsList);
 		contents.append(contentsCategory);
 
 		for (const item of categoryItems) {

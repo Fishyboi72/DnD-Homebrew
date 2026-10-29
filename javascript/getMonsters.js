@@ -10,21 +10,36 @@ async function loadMonsters() {
 	const categoryTemplate = document.getElementById("monster-category-template");
 	const monsterTemplate = document.getElementById("monster-template");
 
-	for (const category of data.categories) {
+	for (const [categoryIndex, category] of data.categories.entries()) {
 		const categoryFragment = categoryTemplate.content.cloneNode(true);
 		const categorySection = categoryFragment.querySelector(".monster-category");
 		const categoryHeading = categorySection.querySelector("h2");
 		const monsterList = categorySection.querySelector(".monster-list");
 		const contentsCategory = document.createElement("li");
-		const contentsHeading = document.createElement("span");
 		const contentsList = document.createElement("ul");
 		const monsters = data.monsters.filter((monster) => monster.type === category);
 
 		categoryHeading.textContent = category;
-		contentsHeading.className = "type";
-		contentsHeading.textContent = category;
-		contentsCategory.append(contentsHeading, contentsList);
+
+		contentsList.hidden = true;
+		contentsList.id = `monster-contents-category-${categoryIndex}`;
+		contentsList.classList.add("contents-category-list");
+		const contentsToggle = document.createElement("button");
+		contentsToggle.className = "contents-category-toggle";
+		contentsToggle.type = "button";
+		contentsToggle.textContent = category;
+		contentsToggle.setAttribute("aria-expanded", "false");
+		contentsToggle.setAttribute("aria-controls", contentsList.id);
+
+		contentsCategory.append(contentsToggle, contentsList);
 		contents.append(contentsCategory);
+
+		if (monsters.length === 0) {
+			const emptyMessage = document.createElement("li");
+			emptyMessage.className = "category-empty-message";
+			emptyMessage.textContent = "There are no monsters in this category yet.";
+			contentsList.append(emptyMessage);
+		}
 
 		for (const monster of monsters) {
 			const contentsItem = document.createElement("li");
