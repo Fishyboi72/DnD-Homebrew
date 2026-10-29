@@ -1,14 +1,14 @@
 {
   "groups": [
     {
-      "id": "subclasses",
-      "name": "Subclasses",
-      "heading": "Subclasses"
-    },
-    {
       "id": "classes",
       "name": "Classes",
       "heading": "Classes"
+    },
+    {
+      "id": "subclasses",
+      "name": "Subclasses",
+      "heading": "Subclasses"
     }
   ],
   "items": [

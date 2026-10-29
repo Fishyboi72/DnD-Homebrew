@@ -11,6 +11,16 @@
       "heading": "1st Level"
     },
     {
+      "id": "level-2",
+      "name": "2nd-Level",
+      "heading": "2nd Level"
+    },
+    {
+      "id": "level-3",
+      "name": "3rd-Level",
+      "heading": "3rd Level"
+    },
+    {
       "id": "level-4",
       "name": "4th-Level",
       "heading": "4th Level"
@@ -34,6 +44,11 @@
       "id": "level-8",
       "name": "8th-Level",
       "heading": "8th Level"
+    },
+    {
+      "id": "level-9",
+      "name": "9th-Level",
+      "heading": "9th Level"
     }
   ],
   "items": [

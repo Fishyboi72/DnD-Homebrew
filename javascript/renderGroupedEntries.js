@@ -1,4 +1,6 @@
 const contentUrl = document.currentScript.dataset.content;
+const emptyCategoryMessage =
+	document.currentScript.dataset.emptyCategoryMessage || "There are no entries in this category yet.";
 
 async function renderGroupedEntries() {
 	const response = await fetch(contentUrl);
@@ -94,9 +96,22 @@ async function renderGroupedEntries() {
 		contentsCategory.append(contentsToggle, contentsList);
 		contents.append(contentsCategory);
 
+		const entries = data.items.filter((item) => item.group === group.id);
+		if (entries.length === 0) {
+			const contentsEmptyMessage = document.createElement("li");
+			contentsEmptyMessage.className = "category-empty-message";
+			contentsEmptyMessage.textContent = emptyCategoryMessage;
+			contentsList.append(contentsEmptyMessage);
+
+			const sectionEmptyMessage = document.createElement("p");
+			sectionEmptyMessage.className = "category-empty-message";
+			sectionEmptyMessage.textContent = emptyCategoryMessage;
+			entryList.append(sectionEmptyMessage);
+		}
+
 		if (group.id === "subclasses") {
 			const subclassesByClass = new Map();
-			for (const subclass of data.items.filter((item) => item.group === "subclasses")) {
+			for (const subclass of entries) {
 				const className = getSubclassClass(subclass) || "Other Subclasses";
 				if (!subclassesByClass.has(className)) {
 					subclassesByClass.set(className, []);
@@ -117,9 +132,6 @@ async function renderGroupedEntries() {
 				});
 		}
 
-		const entries = data.items.filter((item) => {
-			return item.group === group.id;
-		});
 		entries.sort((a, b) => {
 			const classOrder = group.id === "subclasses"
 				? collator.compare(getSubclassClass(a), getSubclassClass(b))

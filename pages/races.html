@@ -1,6 +1,7 @@
 <!DOCTYPE html>
     <html>
         <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
             <link rel="stylesheet" href="../styles/style.css">
             <title>D&D Homebrew - Races and Subraces</title>
         </head>
@@ -32,7 +33,6 @@
             <h1>Races & Subraces</h1>
             <p>Sorted by race or subrace then alphabetical order<br>
                 <i>Note: subraces for an already homebrew race will be listed with the race</i></p>
-            <button id="darkModeToggle">Toggle Dark Mode</button>
                 <section id="entry-contents">
                     <h2>Contents:</h2>
                     <ul id="entry-contents-list"></ul>
@@ -50,7 +50,7 @@
                     <article><div class="entry-content"></div></article>
                     <hr>
                 </template>
-                <script src="../javascript/renderGroupedEntries.js" data-content="../data/races.json"></script>
+                <script src="../javascript/renderGroupedEntries.js" data-content="../data/races.json" data-empty-category-message="There are no races or subraces in this category yet."></script>
                 <script src="../javascript/floatingContents.js"></script>
                 <script src="../javascript/floatingNavigation.js"></script>
                 <script src="../javascript/darkMode.js"></script>

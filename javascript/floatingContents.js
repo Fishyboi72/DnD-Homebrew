@@ -24,7 +24,8 @@ if (contents) {
 	const floatingContents = document.createElement("aside");
 	floatingContents.id = "floating-contents";
 	floatingContents.setAttribute("aria-label", "Floating contents");
-	floatingContents.setAttribute("aria-hidden", "true");
+	floatingContents.setAttribute("aria-hidden", "false");
+	floatingContents.classList.add("is-visible");
 	const floatingContentsHeader = document.createElement("div");
 	floatingContentsHeader.className = "floating-contents-header";
 	const floatingContentsToggle = document.createElement("button");
@@ -33,7 +34,6 @@ if (contents) {
 	floatingContentsToggle.textContent = "Contents";
 	floatingContentsToggle.setAttribute("aria-expanded", "false");
 	floatingContentsToggle.setAttribute("aria-controls", "floating-contents-body");
-	floatingContentsHeader.append(floatingContentsToggle);
 	const floatingContentsBody = document.createElement("div");
 	floatingContentsBody.id = "floating-contents-body";
 	floatingContentsBody.hidden = true;
@@ -43,10 +43,7 @@ if (contents) {
 	const floatingDarkModeToggle = document.createElement("button");
 	floatingDarkModeToggle.className = "dark-mode-toggle floating-dark-mode-toggle";
 	floatingDarkModeToggle.type = "button";
-	floatingDarkModeToggle.addEventListener("click", () => {
-		document.getElementById("darkModeToggle").click();
-	});
-	floatingContentsHeader.append(floatingDarkModeToggle);
+	floatingContentsHeader.append(floatingDarkModeToggle, floatingContentsToggle);
 	floatingContents.append(floatingContentsHeader, floatingContentsBody);
 	document.body.append(floatingContents);
 
@@ -77,23 +74,29 @@ if (contents) {
 			});
 	};
 
-	const updateFloatingContents = () => {
-		const contentsVisibilityAnchor = contents.previousElementSibling;
-		const isPastContents = contentsVisibilityAnchor
-			? contentsVisibilityAnchor.getBoundingClientRect().bottom <= 0
-			: window.scrollY > 0;
-		floatingContents.classList.toggle("is-visible", isPastContents);
-		floatingContents.setAttribute("aria-hidden", String(!isPastContents));
-	};
-
-	const contentsObserver = new MutationObserver(() => {
-		syncFloatingContents();
-		updateFloatingContents();
-	});
+	const contentsObserver = new MutationObserver(syncFloatingContents);
 	contentsObserver.observe(contents, { childList: true, subtree: true });
 	syncFloatingContents();
 
-	window.addEventListener("scroll", updateFloatingContents, { passive: true });
-	window.addEventListener("resize", updateFloatingContents);
-	updateFloatingContents();
+	const pageNavigation = document.querySelector("body > nav");
+	const updateFloatingContentsPosition = () => {
+		const navigationBounds = pageNavigation?.getBoundingClientRect();
+		const shouldDock =
+			pageNavigation &&
+			window.getComputedStyle(pageNavigation).display !== "none" &&
+			navigationBounds.bottom > 0;
+		const isDocked = floatingContents.parentElement === pageNavigation;
+
+		if (shouldDock && !isDocked) {
+			pageNavigation.append(floatingContents);
+			floatingContents.classList.add("is-docked");
+		} else if (!shouldDock && isDocked) {
+			document.body.append(floatingContents);
+			floatingContents.classList.remove("is-docked");
+		}
+	};
+
+	window.addEventListener("scroll", updateFloatingContentsPosition, { passive: true });
+	window.addEventListener("resize", updateFloatingContentsPosition);
+	updateFloatingContentsPosition();
 }

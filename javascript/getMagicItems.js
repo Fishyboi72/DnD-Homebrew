@@ -4,29 +4,43 @@ async function loadMagicItems() {
 		throw new Error(`Could not load magic items: ${response.status}`);
 	}
 
-	const items = await response.json();
+	const data = await response.json();
 	const contents = document.getElementById("magic-item-contents-list");
 	const sections = document.getElementById("magic-item-sections");
 	const categoryTemplate = document.getElementById("magic-item-category-template");
 	const itemTemplate = document.getElementById("magic-item-template");
-	const categories = new Map();
+	const itemsByGroup = new Map(data.groups.map((group) => [group.id, []]));
 
-	for (const item of items) {
-		if (!categories.has(item.type)) {
-			categories.set(item.type, []);
+	for (const item of data.items) {
+		const groupItems = itemsByGroup.get(item.group);
+		if (!groupItems) {
+			throw new Error(`Magic item "${item.id}" references unknown group "${item.group}".`);
 		}
-		categories.get(item.type).push(item);
+		groupItems.push(item);
 	}
 
-	for (const [categoryIndex, [category, categoryItems]] of [...categories].entries()) {
+	if (data.groups.length === 0) {
+		const contentsMessage = document.createElement("li");
+		contentsMessage.className = "category-empty-message";
+		contentsMessage.textContent = "There are no magic items yet.";
+		contents.append(contentsMessage);
+
+		const sectionMessage = document.createElement("p");
+		sectionMessage.className = "category-empty-message";
+		sectionMessage.textContent = "There are no magic items yet.";
+		sections.append(sectionMessage);
+	}
+
+	for (const [categoryIndex, group] of data.groups.entries()) {
 		const categoryFragment = categoryTemplate.content.cloneNode(true);
 		const categorySection = categoryFragment.querySelector(".magic-item-category");
 		const categoryHeading = categorySection.querySelector("h2");
 		const itemList = categorySection.querySelector(".magic-item-list");
 		const contentsCategory = document.createElement("li");
 		const contentsList = document.createElement("ul");
+		const categoryItems = itemsByGroup.get(group.id);
 
-		categoryHeading.textContent = category;
+		categoryHeading.textContent = group.heading;
 
 		contentsList.hidden = true;
 		contentsList.id = `magic-item-contents-category-${categoryIndex}`;
@@ -34,12 +48,24 @@ async function loadMagicItems() {
 		const contentsToggle = document.createElement("button");
 		contentsToggle.className = "contents-category-toggle";
 		contentsToggle.type = "button";
-		contentsToggle.textContent = category;
+		contentsToggle.textContent = group.name;
 		contentsToggle.setAttribute("aria-expanded", "false");
 		contentsToggle.setAttribute("aria-controls", contentsList.id);
 
 		contentsCategory.append(contentsToggle, contentsList);
 		contents.append(contentsCategory);
+
+		if (categoryItems.length === 0) {
+			const contentsMessage = document.createElement("li");
+			contentsMessage.className = "category-empty-message";
+			contentsMessage.textContent = "There are no magic items in this category yet.";
+			contentsList.append(contentsMessage);
+
+			const sectionMessage = document.createElement("p");
+			sectionMessage.className = "category-empty-message";
+			sectionMessage.textContent = "There are no magic items in this category yet.";
+			itemList.append(sectionMessage);
+		}
 
 		for (const item of categoryItems) {
 			const contentsItem = document.createElement("li");

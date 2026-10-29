@@ -39,6 +39,11 @@ async function loadMonsters() {
 			emptyMessage.className = "category-empty-message";
 			emptyMessage.textContent = "There are no monsters in this category yet.";
 			contentsList.append(emptyMessage);
+
+			const sectionEmptyMessage = document.createElement("p");
+			sectionEmptyMessage.className = "category-empty-message";
+			sectionEmptyMessage.textContent = "There are no monsters in this category yet.";
+			monsterList.append(sectionEmptyMessage);
 		}
 
 		for (const monster of monsters) {

@@ -20,6 +20,13 @@ if (pageNavigation) {
 	navigationToolbar.className = "floating-navigation-toolbar";
 	navigationToolbar.append(navigationToggle);
 
+	const darkModeToggle = pageNavigation.querySelector(":scope > .floating-dark-mode-toggle");
+	if (darkModeToggle) {
+		const floatingDarkModeToggle = darkModeToggle.cloneNode(true);
+		floatingDarkModeToggle.removeAttribute("id");
+		navigationToolbar.append(floatingDarkModeToggle);
+	}
+
 	const navigationLinks = document.createElement("nav");
 	navigationLinks.id = "floating-navigation-links";
 	navigationLinks.setAttribute("aria-label", "Site navigation");
@@ -54,6 +61,8 @@ if (pageNavigation) {
 	floatingNavigation.append(navigationToolbar, navigationLinks);
 	document.body.append(floatingNavigation);
 
+	const mobileNavigationQuery = window.matchMedia("(max-width: 600px)");
+
 	navigationToggle.addEventListener("click", () => {
 		const isExpanded = navigationToggle.getAttribute("aria-expanded") !== "true";
 		navigationToggle.setAttribute("aria-expanded", String(isExpanded));
@@ -71,11 +80,12 @@ if (pageNavigation) {
 	});
 
 	const updateFloatingNavigation = () => {
-		const isTopNavigationOutOfView = pageNavigation.getBoundingClientRect().bottom <= 0;
-		floatingNavigation.classList.toggle("is-visible", isTopNavigationOutOfView);
-		floatingNavigation.setAttribute("aria-hidden", String(!isTopNavigationOutOfView));
+		const shouldShowFloatingNavigation =
+			mobileNavigationQuery.matches || pageNavigation.getBoundingClientRect().bottom <= 0;
+		floatingNavigation.classList.toggle("is-visible", shouldShowFloatingNavigation);
+		floatingNavigation.setAttribute("aria-hidden", String(!shouldShowFloatingNavigation));
 
-		if (!isTopNavigationOutOfView && !navigationLinks.hidden) {
+		if (!shouldShowFloatingNavigation && !navigationLinks.hidden) {
 			navigationToggle.click();
 		}
 	};

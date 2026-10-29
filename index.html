@@ -1,6 +1,7 @@
 <!DOCTYPE html>
     <html lang="en-us">
         <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
             <link rel="stylesheet" href="./styles/style.css">
             <title>D&D Homebrew - Home</title>
         </head>
@@ -14,6 +15,7 @@
                 <a href="./pages/feats.html">Feats</a>
                 <a href="./pages/spells.html">Spells</a>
                 <a href="./pages/altRules.html">Rules & Alt Rules</a>
+                <button id="darkModeToggle" class="floating-dark-mode-toggle">Toggle Dark Mode</button>
                 <form id="site-search" class="site-search" role="search">
                     <button class="site-search-toggle" type="button" aria-label="Open search" aria-expanded="false" aria-controls="site-search-panel" disabled>
                         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"></circle><path d="m15.5 15.5 5 5"></path></svg>
@@ -28,12 +30,12 @@
             </nav>
             <h1>D&D 5e and 5.5e Homebrew</h1>
             <p><em>Please note: any content that is copyrighted belongs to its respective owners, and this site does not claim ownership of such content. This page is not endorsed by or affiliated with any official D&D publishers or other copyright holders.</em></p>
-            <button id="darkModeToggle">Toggle Dark Mode</button>
             <p class="type">Latest</p>
             <ul id="latest-list"></ul>
             <p class="type">Popular*</p>
             <ul id="popular-list"></ul>
             <h6>*Ha ha whom I kidding, how would I know?</h6>
+            <script src="./javascript/floatingNavigation.js"></script>
             <script src="./javascript/darkMode.js"></script>
             <script src="./javascript/getContnetHomepage.js"></script>
             <script src="./javascript/siteSearch.js" data-data-prefix="./data/" data-page-prefix=""></script>

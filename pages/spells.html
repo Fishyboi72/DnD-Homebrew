@@ -1,6 +1,7 @@
 <!DOCTYPE html>
     <html>
         <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
             <link rel="stylesheet" href="../styles/style.css">
             <title>D&D Homebrew - Spells</title>
         </head>
@@ -31,7 +32,6 @@
             </aside>
             <h1>Spells</h1>
             <p>Sorted by level then alphabetical order</p>
-            <button id="darkModeToggle">Toggle Dark Mode</button>
             <section id="entry-contents">
                     <h2>Contents:</h2>
                     <ul id="entry-contents-list"></ul>
@@ -49,7 +49,7 @@
                     <article><div class="entry-content"></div></article>
                     <hr>
                 </template>
-                <script src="../javascript/renderGroupedEntries.js" data-content="../data/spells.json"></script>
+                <script src="../javascript/renderGroupedEntries.js" data-content="../data/spells.json" data-empty-category-message="There are no spells in this category yet."></script>
                 <script src="../javascript/floatingContents.js"></script>
                 <script src="../javascript/floatingNavigation.js"></script>
                 <script src="../javascript/darkMode.js"></script>

@@ -1,14 +1,14 @@
-const toggleButton = document.getElementById("darkModeToggle");
-
 if (localStorage.getItem("darkMode") === "enabled") {
 	document.body.classList.add("dark-mode");
 }
+
+const toggleButtons = document.querySelectorAll("#darkModeToggle, .dark-mode-toggle");
 
 const updateDarkModeButtons = () => {
 	const isDarkMode = document.body.classList.contains("dark-mode");
 	const label = isDarkMode ? "Light Mode" : "Dark Mode";
 
-	document.querySelectorAll("#darkModeToggle, .dark-mode-toggle").forEach((button) => {
+	toggleButtons.forEach((button) => {
 		button.classList.add("dark-mode-toggle");
 		const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		icon.setAttribute("viewBox", "0 0 24 24");
@@ -47,11 +47,13 @@ const updateDarkModeButtons = () => {
 
 updateDarkModeButtons();
 
-toggleButton.addEventListener("click", () => {
-	document.body.classList.toggle("dark-mode");
-	localStorage.setItem(
-		"darkMode",
-		document.body.classList.contains("dark-mode") ? "enabled" : "disabled"
-	);
-	updateDarkModeButtons();
+toggleButtons.forEach((button) => {
+	button.addEventListener("click", () => {
+		document.body.classList.toggle("dark-mode");
+		localStorage.setItem(
+			"darkMode",
+			document.body.classList.contains("dark-mode") ? "enabled" : "disabled"
+		);
+		updateDarkModeButtons();
+	});
 });
